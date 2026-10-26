@@ -30,7 +30,7 @@ export const MODULE_METADATA: Partial<Record<CategorySlug, ModuleMeta>> = {
   ascend: {
     title: '昇腾 AI 芯片与算子开发',
     description:
-      '从昇腾硬件架构与达芬奇 AI Core 出发，深入 CANN 软件栈、AscendCL 应用开发、Ascend C 算子开发、HCCL 集合通信与分布式训练，再到 MindSpore 框架与 MindIE/vLLM-Ascend 推理，系统掌握国产 AI 算力全栈技术。',
+      '从昇腾硬件架构与达芬奇 AI Core 出发，深入 CANN 软件栈、AscendCL 应用开发、Ascend C 算子开发、HCCL 集合通信与分布式训练，再到 MindIE/vLLM-Ascend 推理，系统掌握国产 AI 算力全栈技术。',
     color: '#EF4444',
     tips: [
       '昇腾与 CUDA 体系高度同构，建议结合 AIInfraGuide 原站的 CUDA 编程模块对照学习，迁移更快',
@@ -58,12 +58,6 @@ export const MODULE_METADATA: Partial<Record<CategorySlug, ModuleMeta>> = {
         title: 'Ascend Samples',
         href: 'https://github.com/Ascend/samples',
         description: '昇腾官方开源样例仓库，覆盖算子、推理、训练、C++/Python 全场景示例',
-      },
-      {
-        type: '框架社区',
-        title: '昇思 MindSpore',
-        href: 'https://www.mindspore.cn/',
-        description: '华为自研 AI 框架，与昇腾深度适配，提供大模型训练与推理套件',
       },
       {
         type: '推理生态',

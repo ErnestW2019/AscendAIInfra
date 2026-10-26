@@ -1,9 +1,9 @@
 ---
-title: "第6章：推理与 MindIE"
+title: "第5章：推理与 MindIE"
 description: "掌握昇腾推理的软硬件栈与模型转换（ATC/OM），学习 MindIE 推理引擎的核心机制与部署流程，掌握 vLLM-Ascend 适配与大模型推理，以及昇腾量化与 KV Cache 优化方法"
 pubDate: 2026-10-25
 category: "ascend"
-order: 60
+order: 50
 tags: ["MindIE", "推理", "vLLM-Ascend", "量化", "KV Cache"]
 ---
 

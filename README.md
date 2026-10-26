@@ -4,7 +4,7 @@
 
 **在线浏览：[https://ernestw2019.github.io/AscendAIInfra/](https://ernestw2019.github.io/AscendAIInfra/)**
 
-昇腾是国产 AI 算力的核心代表。本项目系统梳理从昇腾硬件架构、CANN 软件栈、Ascend C 算子开发，到 HCCL 集合通信与分布式训练、MindSpore 框架、MindIE/vLLM-Ascend 推理的完整技术栈，帮助工程师构建国产 AI 基础设施的知识体系。
+昇腾是国产 AI 算力的核心代表。本项目系统梳理从昇腾硬件架构、CANN 软件栈、Ascend C 算子开发，到 HCCL 集合通信与分布式训练、MindIE/vLLM-Ascend 推理的完整技术栈，帮助工程师构建国产 AI 基础设施的知识体系。
 
 <div align="center">
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License" />
@@ -20,7 +20,7 @@
 - 昇腾芯片的硬件架构（达芬奇 AI Core、HCCS 互联）缺乏由浅入深的讲解
 - CANN 软件栈层次多（AscendCL、Ascend C、GE、算子工程），不知道从哪里开始
 - Ascend C 算子开发范式与 CUDA/Kernel 差异明显，缺少对照式教程
-- HCCL 集合通信、MindSpore 训练、MindIE/vLLM-Ascend 推理适配各成体系，难以串成一条主线
+- HCCL 集合通信、分布式训练、MindIE/vLLM-Ascend 推理适配各成体系，难以串成一条主线
 
 AscendAIInfra 正是为了解决这些问题而创建的——一个**开源、系统、面向实践**的昇腾知识库，帮助工程师从硬件到软件、从算子到推理构建完整的昇腾 AI Infra 知识体系。
 
@@ -32,7 +32,7 @@ AscendAIInfra 正是为了解决这些问题而创建的——一个**开源、�
 
 | 模块 | 章节 | 文章数 |
 |------|------|--------|
-| 模块五：昇腾 AI 芯片与算子开发 | 6 章 | 32 篇 |
+| 模块五：昇腾 AI 芯片与算子开发 | 5 章 | 28 篇 |
 
 ### 章节清单
 
@@ -42,10 +42,9 @@ AscendAIInfra 正是为了解决这些问题而创建的——一个**开源、�
 | 第 2 章 | CANN 软件栈与 AscendCL | 7 篇 |
 | 第 3 章 | Ascend C 算子开发 | 5 篇 |
 | 第 4 章 | HCCL 集合通信与分布式训练 | 3 篇 |
-| 第 5 章 | MindSpore 框架 | 3 篇 |
-| 第 6 章 | 推理与 MindIE | 4 篇 |
+| 第 5 章 | 推理与 MindIE | 4 篇 |
 
-**全部 32 篇文章清单：**
+**全部 28 篇文章清单：**
 
 #### 第 1 章 · 昇腾 AI 芯片与硬件架构
 - 1.1 昇腾芯片家族与演进路线
@@ -74,22 +73,17 @@ AscendAIInfra 正是为了解决这些问题而创建的——一个**开源、�
 - 4.2 多卡多机拓扑与 HCCL 配置
 - 4.3 昇腾分布式训练实战
 
-#### 第 5 章 · MindSpore 框架
-- 5.1 MindSpore 架构与图模式
-- 5.2 MindSpore 训练实战
-- 5.3 PyTorch 生态迁移与第三方框架
-
-#### 第 6 章 · 推理与 MindIE
-- 6.1 昇腾推理软硬件栈与模型转换
-- 6.2 MindIE 推理引擎与部署
-- 6.3 vLLM-Ascend 适配
-- 6.4 昇腾量化与 KVCache 优化
+#### 第 5 章 · 推理与 MindIE
+- 5.1 昇腾推理软硬件栈与模型转换
+- 5.2 MindIE 推理引擎与部署
+- 5.3 vLLM-Ascend 适配
+- 5.4 昇腾量化与 KVCache 优化
 
 <br>
 
 ## ✍️ 内容准则
 
-- 所有技术细节与代码均以**华为官方公开文档为准**（昇腾社区、CANN、MindSpore、MindIE、vLLM-Ascend），并附官方链接
+- 所有技术细节与代码均以**华为官方公开文档为准**（昇腾社区、CANN、MindIE、vLLM-Ascend），并附官方链接
 - 写作风格先白话后术语，便于无实操经验的读者快速上手
 - 涉及具体版本号的规格（如昇腾 950 系列参数），以官方发布为准，文中会明确标注
 
@@ -103,8 +97,8 @@ AscendAIInfra 正是为了解决这些问题而创建的——一个**开源、�
 |------|------|------|
 | 入门 | 第 1 章、第 2 章 | 看懂昇腾硬件与 CANN 软件栈，会用 AscendCL |
 | 进阶 | 第 3 章 | 掌握 Ascend C 算子开发范式 |
-| 实战 | 第 4 章、第 5 章 | 上手 HCCL 分布式训练与 MindSpore |
-| 工程 | 第 6 章 | 掌握 MindIE / vLLM-Ascend 推理部署 |
+| 实战 | 第 4 章 | 上手 HCCL 分布式训练 |
+| 工程 | 第 5 章 | 掌握 MindIE / vLLM-Ascend 推理部署 |
 
 <br>
 
