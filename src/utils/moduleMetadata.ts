@@ -36,6 +36,7 @@ export const MODULE_METADATA: Partial<Record<CategorySlug, ModuleMeta>> = {
       '昇腾与 CUDA 体系高度同构，建议结合 AIInfraGuide 原站的 CUDA 编程模块对照学习，迁移更快',
       '第1~2章以「看懂+会用」为主，第3章 Ascend C 是算子开发核心，建议配合官方样例动手实践',
       '昇腾生态文档以昇腾社区（hiascend.com）与 CANN 官方文档为准，版本迭代快，注意核对版本匹配',
+      '内容核对状态：本模块所有延伸阅读链接与关键事实（芯片型号、CANN/PyTorch/TorchNPU 版本配套）已按昇腾社区官方页面核对（核对日 2026-10-26），具体文档正文请以官方为准',
       '无真实硬件的同学可先学习原理并浏览官方样例，有条件时通过昇腾开发者云（如 HiDevLab）申请在线 NPU 资源',
     ],
     prerequisites: '建议具备 GPU 硬件概论、集合通信基础等 AI Infra 前置知识；有 CUDA 编程经验对照学习更佳',
