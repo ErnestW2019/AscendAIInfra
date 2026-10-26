@@ -19,4 +19,4 @@ tags: ["MindIE", "推理", "vLLM-Ascend", "量化", "KV Cache"]
 
 **量化与 KV Cache 优化**是推理性能的放大器：W8A8/AWQ/FP8 等量化方案在昇腾上的支持情况、PagedAttention 与 KV Cache 量化如何显著提升吞吐，以及长序列推理的优化手段。
 
-> 学习前提：建议先掌握第 2 章（CANN 与 AscendCL）和第 4 章（HCCL）。对照本仓库模块四（推理优化）的通用原理学习效果更佳。
+> 学习前提：建议先掌握第 2 章（CANN 与 AscendCL）和第 4 章（HCCL）。对照 AIInfraGuide 原站模块四（推理优化）的通用原理学习效果更佳。
