@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.claude
+.astro/
+.env
+.env.*
+*.log
+public/pagefind/
+docs/guides/课程资料
