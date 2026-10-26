@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ernestw2019.github.io/AscendAIInfra/sitemap-index.xml

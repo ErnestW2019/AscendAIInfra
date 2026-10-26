@@ -1,0 +1,389 @@
+---
+import '@fontsource/inter';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/jetbrains-mono';
+import '../styles/global.css';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import Search from '../components/Search.astro';
+import CopyButton from '../components/CopyButton.astro';
+import { getCollection } from 'astro:content';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'AscendAIInfra - 昇腾 AI 全栈学习指南',
+  description = '从昇腾硬件架构、CANN 软件栈到 Ascend C 算子开发、HCCL 分布式训练与 MindIE 推理，系统学习国产 AI 算力全栈技术',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const getPath = (path: string) => {
+  const base = import.meta.env.BASE_URL;
+  return base === '/' ? path : `${base.replace(/\/$/, '')}${path}`;
+};
+
+// 获取每个模块的第一篇文章，用于导航链接
+const allGuides = await getCollection('guides', ({ data }) => !data.draft);
+const getFirstGuideUrl = (category: string, urlPrefix: string) => {
+  const first = allGuides
+    .filter((g) => g.data.category === category)
+    .sort((a, b) => a.data.order - b.data.order)[0];
+  return first ? getPath(`${urlPrefix}/${first.id}`) : getPath('/');
+};
+
+const navModules = [
+  { label: '昇腾全栈', prefix: '/ascend', url: getPath('/ascend') },
+];
+
+// 导航栏高亮：根据当前路径判断激活项
+const currentPath = Astro.url.pathname;
+const isActive = (prefix: string) => {
+  const fullPrefix = getPath(prefix);
+  return currentPath.startsWith(prefix) || currentPath.startsWith(fullPrefix);
+};
+
+const navLinkClass = (prefix: string) =>
+  isActive(prefix)
+    ? 'nav-link relative text-sm font-semibold text-gray-900 dark:text-white transition-colors duration-200 py-1 cursor-pointer'
+    : 'nav-link relative text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 py-1 cursor-pointer';
+
+const navLinkIndicator = (prefix: string) =>
+  isActive(prefix)
+    ? 'absolute -bottom-[22px] left-0 right-0 h-[2px] bg-gradient-to-r from-[#EF4444] to-[#F97316] rounded-full'
+    : 'absolute -bottom-[22px] left-0 right-0 h-[2px] bg-gradient-to-r from-[#EF4444] to-[#F97316] rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center';
+
+const mobileNavLinkClass = (prefix: string) =>
+  isActive(prefix)
+    ? 'mobile-nav-link flex items-center gap-3 py-3 px-4 rounded-xl text-[13px] text-gray-900 dark:text-white bg-gray-100 dark:bg-white/[0.08] transition-all font-semibold cursor-pointer'
+    : 'mobile-nav-link flex items-center gap-3 py-3 px-4 rounded-xl text-[13px] text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-white/[0.04] transition-all font-medium cursor-pointer';
+---
+
+<!doctype html>
+<html lang="zh-CN" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href={getPath('/favicon.svg')} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+
+    <!-- KaTeX math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.45/dist/katex.min.css" crossorigin="anonymous" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:site_name" content="AscendAIInfra" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+
+    <meta name="theme-color" content="#EF4444" />
+
+    <script is:inline>
+      if (
+        localStorage.getItem('color-theme') === 'dark' ||
+        (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+  </head>
+
+  <body class="bg-[#fafafa] dark:bg-[#0a0a0a] text-gray-900 dark:text-gray-100 min-h-screen flex flex-col font-sans transition-colors duration-300">
+    <!-- Skip to content (accessibility) -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[#007aff] focus:text-white focus:rounded-lg focus:text-sm focus:font-medium">
+      跳到主要内容
+    </a>
+
+    <!-- Header -->
+    <header id="site-header" class="fixed top-0 left-0 right-0 z-50 bg-white/70 dark:bg-white/[0.06] backdrop-blur-xl border-b border-gray-200/50 dark:border-white/[0.08] transition-all duration-300">
+      <div class="w-full">
+        <nav class="relative flex items-center justify-between h-16 max-w-7xl mx-auto px-6 transition-all duration-300">
+          <!-- Logo -->
+          <a href={getPath('/')} class="text-xl font-bold cursor-pointer">
+            <span class="bg-gradient-to-r from-[#EF4444] to-[#F97316] bg-clip-text text-transparent">
+              AscendAIInfra
+            </span>
+          </a>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden lg:flex items-center">
+            <!-- Module nav (primary) -->
+            <ul class="flex items-center gap-1">
+              {navModules.map((mod) => (
+                <li class="group">
+                  <a href={mod.url} class={navLinkClass(mod.prefix)}>
+                    <span class="relative px-3 py-1.5 rounded-lg group-hover:bg-gray-100/70 dark:group-hover:bg-white/[0.06] transition-colors duration-200">
+                      {mod.label}
+                    </span>
+                    <span class={navLinkIndicator(mod.prefix)} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <!-- Divider -->
+            <div class="w-px h-4 bg-gray-200 dark:bg-white/[0.08] mx-3" />
+
+            <!-- Utility nav (secondary) -->
+            <ul class="flex items-center gap-1">
+              <li class="group">
+                <a href={getPath('/ascend')} class={navLinkClass('/ascend')}>
+                  <span class="relative px-3 py-1.5 rounded-lg group-hover:bg-gray-100/70 dark:group-hover:bg-white/[0.06] transition-colors duration-200">
+                    章节目录
+                  </span>
+                  <span class={navLinkIndicator('/ascend')} />
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Right actions -->
+          <div class="flex items-center gap-0.5">
+            <!-- GitHub -->
+            <a
+              href="https://github.com/ErnestW2019/AscendAIInfra"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hidden md:flex p-2 rounded-lg hover:bg-gray-100/70 dark:hover:bg-white/[0.06] transition-colors duration-200 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer"
+              aria-label="GitHub"
+              title="GitHub"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            </a>
+
+            <!-- Search -->
+            <button
+              onclick="document.dispatchEvent(new Event('open-search'))"
+              class="p-2 rounded-lg hover:bg-gray-100/70 dark:hover:bg-white/[0.06] transition-colors duration-200 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer"
+              aria-label="搜索"
+              title="搜索 (Cmd/Ctrl + K)"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
+
+            <ThemeToggle />
+
+            <!-- Mobile Menu Button -->
+            <button
+              id="mobile-menu-btn"
+              class="lg:hidden p-2 rounded-lg hover:bg-gray-100/70 dark:hover:bg-white/[0.06] transition-colors duration-200 cursor-pointer"
+              aria-label="菜单"
+            >
+              <svg id="menu-icon" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path class="menu-open" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                <path class="menu-close hidden" stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Mobile Menu Overlay -->
+      <div
+        id="mobile-menu-overlay"
+        class="lg:hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-300"
+      ></div>
+
+      <!-- Mobile Menu Drawer -->
+      <div
+        id="mobile-menu"
+        class="lg:hidden fixed top-0 right-0 h-full w-72 max-w-[80vw] bg-white/95 dark:bg-[#141414]/95 backdrop-blur-xl shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-out"
+      >
+        <div class="p-6">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">导航</span>
+            <button id="mobile-menu-close" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/[0.06] transition-colors cursor-pointer" aria-label="关闭菜单">
+              <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Mobile module section -->
+          <div class="mb-6">
+            <p class="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider px-4 mb-2">知识库</p>
+            <nav class="flex flex-col gap-0.5">
+              {navModules.map((mod) => (
+                <a href={mod.url} class={mobileNavLinkClass(mod.prefix)}>{mod.label}</a>
+              ))}
+            </nav>
+          </div>
+
+          <!-- Mobile utility section -->
+          <div class="border-t border-gray-100 dark:border-white/[0.06] pt-4">
+            <p class="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider px-4 mb-2">更多</p>
+            <nav class="flex flex-col gap-0.5">
+              <a href={getPath('/ascend')} class={mobileNavLinkClass('/ascend')}>章节目录</a>
+              <a href="https://github.com/ErnestW2019/AscendAIInfra" target="_blank" rel="noopener noreferrer" class="mobile-nav-link flex items-center gap-3 py-3 px-4 rounded-xl text-[13px] text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-white/[0.04] transition-all font-medium cursor-pointer">
+                GitHub
+                <svg class="w-3 h-3 ml-auto opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Reading Progress Bar -->
+    <div id="reading-progress" class="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-[#EF4444] via-[#F97316] to-[#F59E0B] z-[60] transition-all duration-150 pointer-events-none" style="width: 0%"></div>
+
+    <main id="main-content" class="flex-1 pt-16">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white/50 dark:bg-white/[0.02] border-t border-gray-200/60 dark:border-white/[0.06] py-8 mt-auto transition-colors duration-300">
+      <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-gray-400 dark:text-gray-500 text-xs">&copy; 2025-{new Date().getFullYear()} AscendAIInfra. 开源项目，欢迎贡献！</p>
+        <p class="text-gray-400 dark:text-gray-500 text-xs">基于
+          <a href="https://github.com/caomaolufei/AIInfraGuide" target="_blank" class="text-gray-500 dark:text-gray-400 hover:text-[#EF4444] transition-colors text-xs cursor-pointer">
+            AIInfraGuide
+          </a>
+          开源项目独立维护
+        </p>
+        <div class="flex items-center gap-4">
+          <a href="https://github.com/ErnestW2019/AscendAIInfra" target="_blank" rel="noopener noreferrer" class="text-gray-400 dark:text-gray-500 hover:text-[#EF4444] transition-colors text-xs cursor-pointer">
+            GitHub
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button
+      id="back-to-top"
+      class="fixed bottom-8 right-8 w-11 h-11 bg-[#EF4444] hover:bg-[#dc2626] text-white rounded-full shadow-lg opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center justify-center"
+      aria-label="回到顶部"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+      </svg>
+    </button>
+
+    <script>
+      const progressBar = document.getElementById('reading-progress');
+      const backToTopBtn = document.getElementById('back-to-top');
+      const header = document.getElementById('site-header');
+
+      let lastScrollY = 0;
+      window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+        if (progressBar) progressBar.style.width = scrolled + '%';
+
+        // Navbar scroll effect: compact on scroll
+        if (header) {
+          if (winScroll > 20) {
+            header.classList.add('is-scrolled');
+          } else {
+            header.classList.remove('is-scrolled');
+          }
+        }
+
+        if (winScroll > 500) {
+          backToTopBtn?.classList.remove('opacity-0', 'pointer-events-none');
+          backToTopBtn?.classList.add('opacity-100', 'pointer-events-auto');
+        } else {
+          backToTopBtn?.classList.remove('opacity-100', 'pointer-events-auto');
+          backToTopBtn?.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        lastScrollY = winScroll;
+      });
+
+      backToTopBtn?.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // Mobile menu
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenuClose = document.getElementById('mobile-menu-close');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+      const menuIcon = document.getElementById('menu-icon');
+
+      function openMenu() {
+        mobileMenu?.classList.remove('translate-x-full');
+        mobileMenuOverlay?.classList.remove('opacity-0', 'pointer-events-none');
+        mobileMenuOverlay?.classList.add('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = 'hidden';
+        menuIcon?.querySelector('.menu-open')?.classList.add('hidden');
+        menuIcon?.querySelector('.menu-close')?.classList.remove('hidden');
+      }
+
+      function closeMenu() {
+        mobileMenu?.classList.add('translate-x-full');
+        mobileMenuOverlay?.classList.remove('opacity-100', 'pointer-events-auto');
+        mobileMenuOverlay?.classList.add('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = '';
+        menuIcon?.querySelector('.menu-open')?.classList.remove('hidden');
+        menuIcon?.querySelector('.menu-close')?.classList.add('hidden');
+      }
+
+      mobileMenuBtn?.addEventListener('click', openMenu);
+      mobileMenuClose?.addEventListener('click', closeMenu);
+      mobileMenuOverlay?.addEventListener('click', closeMenu);
+      document.querySelectorAll('.mobile-nav-link').forEach((link) => link.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+    </script>
+
+    <Search />
+    <CopyButton />
+
+    <!-- Mermaid diagram rendering -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+      function initMermaid() {
+        const isDark = document.documentElement.classList.contains('dark');
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: isDark ? 'dark' : 'default',
+          securityLevel: 'loose',
+        });
+
+        // Find all mermaid code blocks rendered by Astro/Shiki
+        // Shiki outputs: <pre data-language="mermaid" ...><code>...</code></pre>
+        // Also handle standard: <pre><code class="language-mermaid">...</code></pre>
+        const selectors = 'pre[data-language="mermaid"], pre > code.language-mermaid';
+        document.querySelectorAll(selectors).forEach((el) => {
+          const pre = el.tagName === 'PRE' ? el : el.parentElement;
+          const code = pre.querySelector('code') || pre;
+          const div = document.createElement('div');
+          div.className = 'mermaid';
+          div.textContent = code.textContent;
+          pre.replaceWith(div);
+        });
+
+        mermaid.run();
+      }
+
+      // Run on initial load
+      initMermaid();
+
+      // Re-run on Astro page navigation (View Transitions)
+      document.addEventListener('astro:after-swap', initMermaid);
+    </script>
+  </body>
+</html>
