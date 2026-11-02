@@ -33,7 +33,7 @@ export const MODULE_METADATA: Partial<Record<CategorySlug, ModuleMeta>> = {
       '从昇腾硬件架构与达芬奇 AI Core 出发，深入 CANN 软件栈、AscendCL 应用开发、Ascend C 算子开发、HCCL 集合通信与分布式训练，再到 MindIE/vLLM-Ascend 推理，系统掌握国产 AI 算力全栈技术。',
     color: '#EF4444',
     tips: [
-      '昇腾与 CUDA 体系高度同构，建议结合 AIInfraGuide 原站的 CUDA 编程模块对照学习，迁移更快',
+      '昇腾与 CUDA 体系高度同构，本站各篇均提供昇腾↔CUDA 对照讲解；具备 CUDA 基础者对照学习、迁移更快',
       '第1~2章以「看懂+会用」为主，第3章 Ascend C 是算子开发核心，建议配合官方样例动手实践',
       '昇腾生态文档以昇腾社区（hiascend.com）与 CANN 官方文档为准，版本迭代快，注意核对版本匹配',
       '内容核对状态：本模块所有延伸阅读链接与关键事实（芯片型号、CANN/PyTorch/TorchNPU 版本配套）已按昇腾社区官方页面核对（核对日 2026-10-26），具体文档正文请以官方为准',

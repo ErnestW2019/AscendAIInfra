@@ -91,7 +91,7 @@ AscendAIInfra 正是为了解决这些问题而创建的——一个**开源、�
 
 ## 🧭 学习路线建议
 
-昇腾与 CUDA 体系高度同构，建议结合 [AIInfraGuide 原站](https://caomaolufei.github.io/AIInfraGuide/) 的 CUDA、分布式训练、推理模块对照学习，迁移更快。
+昇腾与 CUDA 体系高度同构，本站各篇均提供昇腾↔CUDA 对照讲解；具备 CUDA 基础者对照学习、迁移更快。
 
 | 阶段 | 章节 | 目标 |
 |------|------|------|
